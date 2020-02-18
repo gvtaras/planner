@@ -49,7 +49,7 @@ $(document).ready(function() {
                     week2firstday = new Date(currentdate.setDate(first2week)).toUTCString(),
                     week3firstday = new Date(currentdate.setDate(first3week)).toUTCString(),
                     week4firstday = new Date(currentdate.setDate(first4week)).toUTCString();
-.                var wrapper = '<div><h1>Project Roadmap</h1><table id="project-timeline"><th class="table-heading"><td class="week1"><h4>Week Starting ' + week1firstday + '</h4></td><td class="week2"><h4>Week Starting ' + week2firstday + '</h4></td><td class="week3"><h4>Week Starting ' + week3firstday + '</h4></td><td class="week4"><h4>Week Starting ' + week4firstday + '</h4></td></th></table></div>',
+                var wrapper = '<div><h1>Project Roadmap</h1><table id="project-timeline"><th class="table-heading"><td class="week1"><h4>Week Starting ' + week1firstday + '</h4></td><td class="week2"><h4>Week Starting ' + week2firstday + '</h4></td><td class="week3"><h4>Week Starting ' + week3firstday + '</h4></td><td class="week4"><h4>Week Starting ' + week4firstday + '</h4></td></th></table></div>',
 
                 $(body).append(wrapper);
 
