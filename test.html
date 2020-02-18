@@ -1,0 +1,125 @@
+<html>
+    <head>
+    <!--    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>-->
+        <script src="http://cdn.jsdelivr.net/g/filesaver.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                console.log( "document loaded" );
+                $( "#save" ).click( function() {
+                    var filename = "plan.json";
+                    download2(filename, jsonData);
+                });
+
+                $( "#import" ).click(importJson);
+            });
+
+            function importJson() {
+                var files = document.getElementById('selectFiles').files;
+                console.log(files);
+                if (files.length <= 0) {
+                    return false;
+                }
+
+                var fr = new FileReader();
+
+                fr.onload = function(e) {
+                    console.log(e);
+                    /* console.log(e.target.result) */;
+                    var result = JSON.parse(e.target.result);
+                    var formatted = JSON.stringify(result, null, 2);
+                    jsonData = formatted;
+                    document.getElementById('result').value = formatted;
+                    makeList2(result);
+                };
+
+                fr.readAsText(files.item(0));
+
+            }
+
+            function download2(filename, textToSave) {
+                var blob = new Blob([textToSave], {type: "text/plain;charset=utf-8"});
+
+                saveAs(blob, filename);
+            }
+
+            function makeList2(listData) {
+                // Establish the array which acts as a data source for the list
+                let listContainer = document.createElement('div'),
+                    // Make the list
+                    listElement = document.createElement('ul'),
+                    // Set up a loop that goes through the items in listItems one at a time
+                    numberOfListItems = listData.elements.length,
+                    listItem,
+                    i;
+
+                // Add it to the page
+                document.getElementsByTagName('body')[0].appendChild(listContainer);
+                listContainer.appendChild(listElement);
+
+                for (i = 0; i < numberOfListItems; ++i) {
+                    // create an item for each one
+                    let element = listData.elements[i];
+
+                    listItem = document.createElement('li');
+
+                    let header = createTaskHeader(element);
+                    let details = createTaskDetails(element);
+
+                    listItem.appendChild(header);
+                    listItem.appendChild(details);
+
+                    header.onclick = function() {
+                        $( details ).slideToggle("fast");
+                    };
+
+                    // Add listItem to the listElement
+                    listElement.appendChild(listItem);
+                }
+            }
+
+            function createTaskHeader(element) {
+
+                let header = document.createElement('div');
+                header.className = 'task-header';
+                header.id = element.id;
+                header.innerHTML = element.name;
+
+                return header;
+            }
+
+            function createTaskDetails(element) {
+
+                let details = document.createElement('panel');
+                details.className = 'task-details';
+                details.id = 'details-' + element.id;
+                details.innerHTML = element.AC;
+
+                return details;
+            }
+
+        </script>
+        <style>
+            .task-header, .task-details {
+                /*margin: 5px;*/
+                text-align: left;
+                /*background-color: blue;*/
+                border: solid 1px #c3c3c3;
+            }
+
+            .task-details {
+                /*padding: 50px;*/
+                display: none;
+                background-color: red;
+            }
+        </style>
+    </head>
+    <body>
+        <input type="file" id="selectFiles" value="Import"/><br/>
+        <button id="import">Import</button>
+        <button id="save">save</button>
+        <textarea id="result"> </textarea>
+
+    </body>
+</html>
+
